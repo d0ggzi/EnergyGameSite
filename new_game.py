@@ -21,7 +21,6 @@ lines = [
 
 
 def turning(zapas, data):
-    print('before ', data, zapas)
     for i in range(len(lines)):
         if data[i]:
             zapas2 = zapas
@@ -32,16 +31,13 @@ def turning(zapas, data):
                     break
                 else:
                     zapas -= house['potreb']
-    print('after ', data, zapas)
     return zapas, data
 
 
 def potrebl(data):
-    print('before ', lines)
     for i in range(len(lines)):
         for house in lines[i]:
             house['potreb'] = int(house['next_potreb'] * int(data[i]) * rnd(90, 110) / 100)
-    print('after ', lines)
 
 
 def schet(score, data):
@@ -122,7 +118,7 @@ def index(NumRound=0):
         solar_prod = round(rnd(12, 20) / 10 * 12, 1)
         fuel_prod = round(rnd(12, 15) / 10 * 12, 1) * data[-1]
         zapas = round(zapas + solar_prod + fuel_prod, 1)
-        potreb = potrebl(data)
+        potrebl(data)
         zapas, data = turning(zapas, data)
         score = schet(score, data)
         # SendToLed(bright,ser)
