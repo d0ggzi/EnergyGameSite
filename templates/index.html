@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.5">
+	<title>Energy Game</title>
+	<link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type = "text/css">
+</head>
+<body>
+	<div class = "header">
+		<div class = "start"><a href="{{ url_for('index') }}">Начать игру</a></div>
+		<h1>EnergyGame</h1>
+		<div class = "options"><a href="settings">Настройки</a></div>
+	</div>
+	<div class="container">
+		<div class = "left">
+				<form method = "post">
+					{% for i in range(lines|length) -%}
+			                <div class = "main-info">
+			                    <div class = "cell-l"><h1 class = "line-number" id="line-number{{i}}">{{i+1}}</h1></div>
+			                        <hr class = "line2" id = "line2{{i}}" style = "width: 1px; height: {{(lines[i]|length-1) * 86}}px; margin-left: 0px; border: 2px solid #29b922; background-color: #29b922; margin-top: 31px; margin-right: 0;">
+			                        <div class = "cell-r">
+			                            <div class = "city">
+			                                {% for j in range(lines[i]|length) -%}
+			                                <div style = "display: flex; width: 100%;">
+			                                        {% if j == 0 %} 
+			                                                <hr class = "line line1{{i}}" style = "width: 40%; margin-left: -10%;">
+			                                        {% else %}
+			                                                <hr class = "line line1{{i}}">
+			                                        {% endif %}
+			                                        <div class = "zdanie zdanie{{i}}">
+			                                        	{% if lines[i][j].name == 'Больница' %}
+			                                        		<img src="{{ url_for('static', filename='img/hosp.png') }}" alt="hospital" class = "building-img" width="50" id="img0">
+			                                        	{% elif lines[i][j].name == 'Завод' %}
+			                                        		<img src="{{ url_for('static', filename='img/factory.png') }}" alt="hospital" class = "building-img" width="50" id="img0">
+			                                        	{% else %}
+			                                        		<img src="{{ url_for('static', filename='img/house.png') }}" alt="hospital" class = "building-img" width="50" id="img0">
+			                                        	{% endif %}
+			                                        		<div class = "item-full-info" style = "margin-left: 10%;">
+				                                                <h3 style="margin: 3px 0px 3px 0px">{{lines[i][j].name}}</h3>
+				                                                <div class = "item-info">
+				                                                	<p class = "item-info1" id = "house3-info1" style = "color: #29b922">{{lines[i][j].potreb}} МВт</p>
+							<p class = "item-info2" id = "house3-info2">{{lines[i][j].next_potreb}} МВт</p>
+										</div>
+									</div>
+			                                        </div>
+			                                </div>
+			                                <br>
+			                                {% endfor -%}
+			                        </div>
+			                    </div>
+			                </div>
+			        {% endfor -%}
+				</form>
+		</div>
+		<div class="right">
+			<div class = "top">
+				<div class="turn-lines">
+					{% for i in range(lines|length) %}
+					<div class = "turn-line" id = "line0">
+						<p class="line-text">Линия {{i+1}}</p>
+						<input type="checkbox" class="checkbox" id = "check{{i}}" checked/>
+						<label for="check{{i}}"></label>
+					</div>
+					{% endfor %}
+				</div>
+
+				<div class="info">
+					<div class="info-top">
+						<div class = "time">
+							<p style = "margin-bottom: 10px;">До отправки в систему:</p>
+							<p id = "idClock" style="color: #000; margin: 0">00-00</p>
+						</div>
+						<div class = "day-time">
+							<p style="margin-bottom: 0px;">Время дня:</p>
+							<p id = "day-time" style="margin-top: 5px;">{{day_time}}</p>
+						</div>
+					</div>
+					<div class="info-bot">
+						<div class = "score">
+							<p style="margin-bottom: 0px;">Счёт:</p>
+							<p id = "score" style="color: #29b922; margin-top: 5px; font-size: 30px">{{score}}</p>
+						</div>
+						<div class = "event">
+							<p style="margin-bottom: 0px;">Событие:</p>
+							<p id = "event" style="margin-top: 5px;">-</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class = "r-bottom">
+				<div class = "state">
+					<div class = "vodorod">
+						<p class = "state-name" style = "font-size: 25px; margin: 10px 0;">Водородные баллоны:</p>
+						<div class = "state-img">
+							<div class = "balloon-item" id = "balloon-item0">
+								<input type="checkbox" class="h-checkbox" id = "h-check-0"/>
+								<label for="h-check-0"><img src="{{ url_for('static', filename='img/can.png') }}" alt="баллон" class = "balloon-img"></label>
+							</div>
+							<div class = "balloon-item" id = "balloon-item1">
+								<input type="checkbox" class="h-checkbox" id = "h-check-1"/>
+								<label for="h-check-1"><img src="{{ url_for('static', filename='img/can.png') }}" alt="баллон" class = "balloon-img"></label>
+							</div>
+							<div class = "balloon-item" id = "balloon-item2">
+								<input type="checkbox" class="h-checkbox" id = "h-check-2"/>
+								<label for="h-check-2"><img src="{{ url_for('static', filename='img/can.png') }}" alt="баллон" class = "balloon-img"></label>
+							</div>
+							<div class = "balloon-item" id = "balloon-item3">
+								<input type="checkbox" class="h-checkbox" id = "h-check-3"/>
+								<label for="h-check-3"><img src="{{ url_for('static', filename='img/can.png') }}" alt="баллон" class = "balloon-img"></label>
+							</div>
+							<div class = "balloon-item" id = "balloon-item4">
+								<input type="checkbox" class="h-checkbox" id = "h-check-4"/>
+								<label for="h-check-4"><img src="{{ url_for('static', filename='img/can.png') }}" alt="баллон" class = "balloon-img"></label>
+							</div>
+						</div>
+					</div>
+					<div class = "accumulators">
+						<p style="margin: 10px 0;">Аккумуляторы:</p>
+						<div class = "batterys">
+							<div class = "battery">
+								<img src="{{ url_for('static', filename='img/battery.png') }}" alt="батарея" class = "battery-img">
+								<div class = "zaryad" id = "zaryad1"></div>
+								<p class = "zaryad-text" id = "zaryad1-text">50 МВт</p>
+							</div>
+							<div class = "battery">
+								<img src="{{ url_for('static', filename='img/battery.png') }}" alt="батарея" class = "battery-img">
+								<div class = "zaryad" id = "zaryad2"></div>
+								<p class = "zaryad-text" id = "zaryad2-text">70 МВт</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class = "production">
+					<div style = "margin-bottom: 40px;" class = "solar-panels">
+						<p style = "font-size: 25px; margin: 10px 0 0 0;">Солнечные панели:</p>
+						<div class = "prod-item">
+							<img src="{{ url_for('static', filename='img/uno.png') }}" alt="">
+							<p class = "prod-text" id = "solar-panels-prod1">{{solar_prod}} МВт</p>
+						</div>
+					</div>
+					<div class = "fuel cells">
+						<p style = "font-size: 25px; margin: 10px 0 0 0;">Топливные элементы:</p>
+						<div class = "prod-item">
+							<img src="{{ url_for('static', filename='img/uno.png') }}" alt="">
+							<p class = "prod-text" id = "fuel-cells-prod1">{{fuel_prod/2}} МВт</p>
+						</div>
+						<div class = "prod-item">
+							<img src="{{ url_for('static', filename='img/uno.png') }}" alt="">
+							<p class = "prod-text" id = "fuel-cells-prod2">{{fuel_prod/2}} МВт</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class = "footer">
+		<p id = "round"></p>
+	</div>
+
+	<script>
+		var address_data = window.location.href.split('/');
+		address_data = address_data[address_data.length - 1];
+		if (address_data === 'index' || address_data === ''){
+			var NumRound = 1;
+		}
+		else{
+			var NumRound = parseInt(address_data) + 1;
+		}
+
+		var data = {{data}};
+		for (var i = 0; i < data.length-1; i++) {
+			if (data[i] == 0 && NumRound != 0 && NumRound != 1){
+				var AllHouses = document.getElementsByClassName("zdanie" + i);
+				for (var k = 0; k < AllHouses.length; k++){
+					AllHouses[k].style.borderColor = "red";
+				}
+				document.getElementById("line-number" + i).style.color = "red";
+				var AllLines = document.getElementsByClassName("line1" + i);
+				for (var k = 0; k < AllHouses.length; k++){
+					AllLines[k].style.borderColor = "red";
+					AllLines[k].style.backgroundColor = "red";
+				}
+				document.getElementById("line2" + i).style.borderColor = "red";
+				document.getElementById("line2" + i).style.backgroundColor = "red";
+			}
+		}
+		
+
+		var zapas = parseInt({{zapas}});
+		var [zapas1, zapas2] = [0, 0];
+		if (zapas > 200){var zapas = 200;}
+		if (zapas >= 100){
+			zapas1 = 100;
+			zapas2 = Math.round(zapas-100);
+		}
+		else{zapas1 = zapas;}
+		document.getElementById("zaryad1").style.width = zapas1*0.87 + "px";
+		document.getElementById("zaryad2").style.width = zapas2*0.87 + "px";
+		document.getElementById('zaryad1-text').innerHTML = zapas1 + " МВт";
+		document.getElementById('zaryad2-text').innerHTML = zapas2 + " МВт";
+
+		for (var i = 0; i < {{h_balloon}}; i++) {
+			document.getElementById('balloon-item' + i).style.display = "block";
+		}
+
+		document.getElementById('round').innerHTML = 'Раунд: ' + NumRound + '/15';
+
+		var city_status = [];
+		var kolvo = parseInt({{lines|length}});
+
+		function send_data() {
+			city_status[kolvo] = 0;
+			for (var i = 0; i < {{lines|length}}; i++) {
+		    		chbox = document.getElementById('check' + i);
+		    		if (chbox.checked){city_status[i] = 1;}
+		    		else {city_status[i] = 0;}
+		    	}
+		    	for (var i = 0; i < 5; i++){
+		    		h_chbox = document.getElementById('h-check-' + i);
+		    		if (h_chbox.checked){
+		    			city_status[kolvo] = city_status[kolvo] + 1;
+		    			console.log(city_status[kolvo]);
+		    		};
+		    	}
+
+		    	console.log(city_status);
+
+			let info = {
+				'city': city_status
+			}
+			const request = new XMLHttpRequest();
+			request.open('POST', `/get/${JSON.stringify(info)}`);
+			request.onload = () => {
+				const flaskMessage = request.responseText;
+				console.log(flaskMessage);
+			}
+			request.send();
+		}
+
+		function the_end(){
+			if (NumRound == 15){
+      				alert("Ваш счёт: " + '{{score}}');
+      				window.location.href = `{{ url_for('index') }}` + '/0';
+    			}
+    			else{
+    				console.log(`{{ url_for('index') }}`);
+    				window.location.href = `{{ url_for('index') }}` + '/' + NumRound;
+			}
+		}
+
+		var seconds = 10;
+
+		function SimpleClock(){
+    		seconds = parseInt(seconds) - 1;
+    		if (seconds != 0){
+        		timer = setTimeout("SimpleClock()",1000);
+    		}
+    		if (seconds == 0){
+    			send_data();
+    			setTimeout("the_end()",1500);
+    		}
+    		if (seconds < 10){
+    			seconds = '0' + seconds.toString();
+    		}
+    		var clock = '00:' + seconds.toString();
+    		document.getElementById('idClock').innerHTML = clock;
+   		}
+
+   		SimpleClock()
+	</script>
+</body>
+</html>

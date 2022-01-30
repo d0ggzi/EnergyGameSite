@@ -1,0 +1,31 @@
+.info{
+	width: 20%;
+	display: flex;
+}
+
+.line-number{
+	width: 100%;
+	font-size: 25px;
+}
+
+.city{
+	width: 100%;
+}
+
+.zdanie{
+	padding-left: 7px;
+	border: 2px solid green;
+	border-radius: 5px;
+	width: 100%;
+	font-size: 15px;
+}
+
+.cell-l{
+	width: 20%;
+	display: inline-block;
+}
+
+.cell-r{
+	width: 40%;
+	display: inline-block;
+}
